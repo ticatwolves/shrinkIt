@@ -1,0 +1,31 @@
+# Binaries for the current platform
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Build artifacts
+*.o
+*.a
+bootstrap
+# Test results
+*.test
+build/*
+# Go module cache
+# This is usually managed by Go itself and should not be committed
+# if you are using Go modules.
+# If you are not using Go modules, you might need to ignore vendor/
+# if you are managing dependencies manually.
+vendor/
+
+# IDE and OS specific files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# SAM
+.aws-sam/

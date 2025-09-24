@@ -11,6 +11,7 @@ bootstrap
 # Test results
 *.test
 build/*
+.gitignore
 # Go module cache
 # This is usually managed by Go itself and should not be committed
 # if you are using Go modules.

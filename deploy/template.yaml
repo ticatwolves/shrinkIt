@@ -1,8 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  ShrinkIt
-  
+  ShrinkIt  
   Sample SAM Template for ShrinkIt
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
@@ -12,63 +11,50 @@ Globals:
     MemorySize: 128
 
 Resources:
-  ShrinkItUIFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Metadata:
-      BuildMethod: go1.x
-    Properties:
-      CodeUri: ../build/ui/
-      # InlineCode: "s3://path"
-      Handler: bootstrap
-      Runtime: provided.al2023
-      Architectures:
-        - arm64
-      Events:
-        CatchAll:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /
-            Method: GET
-      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
-        Variables:
-          PARAM1: VALUE
   ShrinkItApiFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Metadata:
       BuildMethod: go1.x
     Properties:
-      CodeUri: ../build/api/
+      CodeUri: ../build/
       # InlineCode: "s3://path"
       Handler: bootstrap
       Runtime: provided.al2023
       Architectures:
         - arm64
       Events:
-        CatchAll:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+        GetPathA:
+            Type: HttpApi
+            Properties:
+              Path: /
+              Method: GET
+        PostPathA:
+          Type: HttpApi
           Properties:
-            Path: /shrinkit
-            Method: GET
-          Properties:
-            Path: /shrinkit
+            Path: /
             Method: POST
-      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+      Environment:
         Variables:
-          PARAM1: VALUE
+          DYNAMODB_TABLE: ShrinkItUrlMapping
+          DYNAMODB_ENDPOINT: ""
+  ShrinkItDB:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: urlHash
+        Type: String
+      TableName: ShrinkItUrlMapping
+      Tags:
+        Key: PROJECT
+        Value: ShrinkIt
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  ShrinkItUIFunction:
-    Description: "First Lambda Function ARN"
-    Value: !GetAtt ShrinkItUIFunction.Arn
   ShrinkItApiFunction:
     Description: "First Lambda Function ARN"
     Value: !GetAtt ShrinkItApiFunction.Arn
-  ShrinkItUIFunctionIamRole:
-    Description: "Implicit IAM Role created for function"
-    Value: !GetAtt ShrinkItUIFunctionRole.Arn
   ShrinkItApiFunctionIamRole:
     Description: "Implicit IAM Role created for function"
     Value: !GetAtt ShrinkItApiFunctionRole.Arn

@@ -30,3 +30,4 @@ Thumbs.db
 
 # SAM
 .aws-sam/
+build.toml

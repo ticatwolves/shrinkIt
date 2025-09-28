@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	schema "shrinkIt/internal/schemas"
@@ -31,8 +30,8 @@ func getdynamoDBClient() (*dynamodb.Client, error) {
 func Insert(hash_url *string, actual_url *string) {
 	db_client, _ := getdynamoDBClient()
 	item := map[string]types.AttributeValue{
-		"UrlHash":   &types.AttributeValueMemberS{Value: *hash_url},
-		"ActualUrl": &types.AttributeValueMemberS{Value: *actual_url},
+		"urlHash":   &types.AttributeValueMemberS{Value: *hash_url},
+		"actualUrl": &types.AttributeValueMemberS{Value: *actual_url},
 	}
 	tableName := os.Getenv("DYNAMODB_TABLE")
 	putItemInput := &dynamodb.PutItemInput{
@@ -49,33 +48,25 @@ func Insert(hash_url *string, actual_url *string) {
 func GetByHash(hash_url *string) schema.ShrinkIt {
 	db_client, _ := getdynamoDBClient()
 	var tableName string = os.Getenv("DYNAMODB_TABLE")
-	fmt.Println(*hash_url)
 	input := &dynamodb.GetItemInput{
 		TableName: &tableName,
 		Key: map[string]types.AttributeValue{
-			"UrlHash": &types.AttributeValueMemberS{Value: *hash_url},
+			"urlHash": &types.AttributeValueMemberS{Value: *hash_url},
 		},
 		ConsistentRead: aws.Bool(false),
 	}
 	item, _ := db_client.GetItem(context.TODO(), input)
 	var hrul string
 	var aurl string
-	if urlHash, ok := item.Item["UrlHash"]; ok {
+	if urlHash, ok := item.Item["urlHash"]; ok {
 		if s, ok := urlHash.(*types.AttributeValueMemberS); ok {
 			hrul = s.Value
 		}
 	}
-	if actualUrl, ok := item.Item["ActualUrl"]; ok {
+	if actualUrl, ok := item.Item["actualUrl"]; ok {
 		if s, ok := actualUrl.(*types.AttributeValueMemberS); ok {
 			aurl = s.Value
 		}
 	}
 	return schema.ShrinkIt{UrlHash: hrul, ActualUrl: aurl}
 }
-
-// from boto3 import client, resource
-// endpoint_url = "http://localhost:8000"
-// client = resource(service_name="dynamodb", endpoint_url=endpoint_url)
-// table = client.Table("ShrinkItUrlMapping")
-// client.create_table(TableName="ShrinkItUrlMapping", KeySchema=[{"AttributeName": "UrlHash", "KeyType": "HASH"}], AttributeDefinitions=[{"AttributeName": "UrlHash", "AttributeType": "S"}], Provisioned\
-// Throughput={"ReadCapacityUnits": 1, "WriteCapacityUnits": 1})

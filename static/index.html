@@ -4,64 +4,73 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-            <title>ShrinkIt</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>ShrinkIt</title>
+    <meta name="description" content="ShrinkIt is an **open-source, serverless URL shortener** built with AWS SAM and Go (Golang). It allows you to shorten long URLs into tiny, shareable links while staying cost-efficient and fully under your control.">
     <style>
-                body {
-                    font-family: Arial, sans-serif;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                    margin: 0;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333949;
+            color: #c0c0c0;
+        }
+        .app {
+            text-align: center;
+            padding: 50px;
+            height: 40vh;
+        }
+        .container {
+            display: flex;
+            height: 60vh;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #urlInput {
+            width: 90%;
+        }
+        #urlBtn {
+            width: 10%;
+        }
 
-                }
-                .form-container {
-                    text-align: center;
-                    padding: 50px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                }
-                input[type='text'] {
-                    padding: 8px;
-                    margin: 10px 0;
-                    border-radius: 4px;
-                    border: 1px solid #ddd;
-                }
-                button {
-                    padding: 8px 16px;
-                    border-radius: 4px;
-                    background-color: #4CAF50;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                }
-                button:hover {
-                    background-color: #45a049;
-                }
-            </style>
+        input[type='text'] {
+            width: 90%; 
+            padding: 12px;
+        }
+        button {
+            padding: 12px;
+            background-color: #4CAF50;
+            width: 100%; 
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <div id="app"></div>
     <script>
-       const { createApp } = Vue
-homePage = {
-        data() {
-            return { count: 0 }
-        },
-        template: `
-        <div class='form-container'>
-                <h2>ShrinkIt</h2>
-                <form>
-                    <input type='text' id='inputField' placeholder='Enter URL...' required>
-                    <br>
-                    <button type='button' onclick='handleSubmit()'>Shrink</button>
-                </form>
-            </div>`
-    }
-  createApp(    homePage    
-  ).mount('#app')
- 
+        const { createApp } = Vue
+        page = {
+            data() {
+                return { count: 0 }
+            },
+            template: `
+                <div class='app'>
+                    <h1>ShrinkIt</h1>
+                    <div class='container'>
+                        <div id='urlInput'>
+                            <input type='text' id='url' placeholder='Enter URL...' required>
+                        </div>
+                        <div id='urlBtn'>
+                            <button type='button' onclick='handleSubmit()'>Shrink It</button>
+                        </div>
+                    </div>
+                </div>
+            `
+        }
+        createApp(page).mount('#app')
     </script>
 </body>
 </html>

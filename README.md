@@ -7,8 +7,6 @@ ShrinkIt is an **open-source, serverless URL shortener** built with **AWS SAM** 
 - ⚡ **Serverless** — Powered by AWS Lambda for high scalability and low cost.  
 - 🛠 **Built with Go** — Fast, efficient, and highly portable.  
 - 🧩 **Infrastructure as Code** — Managed using AWS SAM templates.  
-- 🔒 **Secure & Reliable** — Input validation and safe redirects.  
-- 📊 **Extensible** — Add custom analytics, logging, or authentication.  
 
 ## 🏗️ Architecture  
 ShrinkIt is designed as a **fully serverless app**:  
@@ -26,12 +24,12 @@ ShrinkIt is designed as a **fully serverless app**:
 ### Prerequisites  
 - [AWS CLI](https://docs.aws.amazon.com/cli/) configured with your account  
 - [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/) installed  
-- [Go 1.22+](https://go.dev/dl/)  
+- [Go 1.23+](https://go.dev/dl/)  
 
 ### 1. Clone the Repository  
 ```bash
 git clone https://github.com/ticatwolves/shrinkIt.git
-cd shrinkit
+cd shrinkIt
 ```
 
 ### 2. Build the Project  
@@ -48,7 +46,7 @@ Follow the prompts to configure stack name, region, and permissions.
 ### 4. Usage  
 - **Shorten a URL**  
   ```bash
-  curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/prod/shrink     -H "Content-Type: application/json"     -d '{"url": "https://example.com/very/long/url"}'
+  curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/prod     -H "Content-Type: application/json"     -d '{"url": "https://example.com/very/long/url"}'
   ```
   Response:
   ```json
@@ -80,14 +78,6 @@ curl http://127.0.0.1:3000/shrink -d '{"url":"https://example.com"}'
 ├── go.mod
 └── README.md
 ```
-
-## 📌 Roadmap  
-- [ ] Add click analytics  
-- [ ] Add custom aliases for short URLs  
-- [ ] Add authentication (API keys / Cognito)  
-
-## 🤝 Contributing  
-Contributions are welcome! Please fork the repo and submit a PR.  
 
 ## 📜 License  
 This project is licensed under the **MIT License**.  

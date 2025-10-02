@@ -1,4 +1,4 @@
-module shrinkIt
+module github.com/ticatwolves/shrinkit
 
 go 1.23.1
 

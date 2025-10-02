@@ -4,7 +4,8 @@ import (
 	"context"
 	"log"
 	"os"
-	schema "shrinkIt/internal/schemas"
+
+	schema "github.com/ticatwolves/shrinkit/internal/schemas"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"

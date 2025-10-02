@@ -3,7 +3,8 @@ package lib
 import (
 	"encoding/json"
 	"errors"
-	schema "shrinkIt/internal/schemas"
+
+	schema "github.com/ticatwolves/shrinkit/internal/schemas"
 )
 
 func RequestParser(body []byte, requestPayload *schema.RequestPayload) error {

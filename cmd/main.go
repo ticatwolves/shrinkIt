@@ -1,7 +1,7 @@
 package main
 
 import (
-	"shrinkIt/internal/handlers"
+	"github.com/ticatwolves/shrinkit/internal/handlers"
 
 	"github.com/aws/aws-lambda-go/lambda"
 )

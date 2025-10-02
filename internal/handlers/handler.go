@@ -3,9 +3,10 @@ package handlers
 import (
 	"encoding/json"
 	"os"
-	"shrinkIt/internal/db"
-	schema "shrinkIt/internal/schemas"
-	"shrinkIt/lib"
+
+	"github.com/ticatwolves/shrinkit/internal/db"
+	schema "github.com/ticatwolves/shrinkit/internal/schemas"
+	"github.com/ticatwolves/shrinkit/lib"
 
 	"github.com/aws/aws-lambda-go/events"
 )

@@ -31,3 +31,7 @@ Thumbs.db
 # SAM
 .aws-sam/
 build.toml
+
+#SemanticRelease
+.generated-go-semantic-release-changelog.md
+.semrel/*

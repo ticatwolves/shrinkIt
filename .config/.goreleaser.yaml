@@ -1,0 +1,36 @@
+# .goreleaser.yaml
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+archives:
+  - format: tar.gz
+    # this will prevent goreleaser from creating an archive for each binary
+    # as we already have one defined above
+    name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+    files:
+      - README.md
+      - LICENSE
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ .Tag }}-next"
+changelog:
+  sort: asc
+  filters:
+      exclude:
+        - "^docs:"
+        - "^test:"
+release:
+  github:
+    owner: ticatwolves
+    name: shrinkIt

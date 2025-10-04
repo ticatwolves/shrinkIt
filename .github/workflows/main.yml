@@ -1,0 +1,70 @@
+name: Release and Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # outputs:
+    #   released: ${{ steps.semrel.outputs.test }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # required for go-semantic-release to analyze history
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Test
+        run: go test -v ./...    
+
+      - name: Go Semantic Release
+        id: semrel
+        uses: go-semantic-release/action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }} # Use the default token
+
+      - name: GoReleaser
+        if: steps.semrel.outputs.released == 'true'
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Use your PAT here
+  deploy-to-aws:
+    needs: release
+    if: needs.release.outputs.released == 'true' # Only run if a new release was created
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Install SAM CLI
+      - name: Setup SAM CLI
+        uses: aws-actions/setup-sam@v2
+
+      # Configure AWS Credentials with OIDC for enhanced security
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::123456789012:role/YourGitHubActionsRole # Replace with your IAM role ARN
+          aws-region: us-east-1 # Replace with your AWS region
+
+      # SAM Build and deployment
+      - name: SAM Build
+        run: make build
+
+      - name: SAM Deploy
+        run: make deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

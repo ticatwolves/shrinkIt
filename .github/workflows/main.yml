@@ -38,6 +38,7 @@ jobs:
         if: steps.semrel.outputs.version != null || steps.semrel.outputs.version != ''
         uses: goreleaser/goreleaser-action@v6
         with:
+          config: .config/.goreleaser.yaml
           distribution: goreleaser
           version: latest
           args: release --config .config/.goreleaser.yaml

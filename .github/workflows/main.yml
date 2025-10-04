@@ -40,8 +40,8 @@ jobs:
         with:
           config: .config/.goreleaser.yaml
           distribution: goreleaser
-          version: ${{ steps.semrel.outputs.version }}
-          args: release --clean
+          version: latest
+          args: release --config .config/.goreleaser.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Use your PAT here
   deploy:

@@ -38,10 +38,9 @@ jobs:
         if: steps.semrel.outputs.version != null || steps.semrel.outputs.version != ''
         uses: goreleaser/goreleaser-action@v6
         with:
-          config: .config/.goreleaser.yaml
           distribution: goreleaser
           version: latest
-          args: release --config .config/.goreleaser.yaml
+          args: release --config .config/.goreleaser.yaml --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Use your PAT here
   deploy:
